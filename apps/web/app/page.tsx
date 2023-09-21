@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Card } from "ui";
 import styles from "./page.module.css";
+import client from "./client";
 
 function Gradient({
   conic,
@@ -49,10 +50,20 @@ const LINKS = [
   },
 ];
 
-export default function Page(): JSX.Element {
+interface Post {
+  _id: string;
+  title?: string;
+  slug?: {
+    current: string;
+  };
+}
+
+export default async function Page(): Promise<JSX.Element> {
+  const posts = await client.fetch<Post[]>(`*[_type == "post"]`);
   return (
     <main className={styles.main}>
       <div className={styles.description}>
+        <p>I found {posts.length} posts</p>
         <p>
           examples/basic&nbsp;
           <code className={styles.code}>web</code>
