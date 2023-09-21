@@ -1,7 +1,13 @@
 import Image from "next/image";
 import { Card } from "ui";
+import { interval, take, lastValueFrom } from "rxjs";
 import styles from "./page.module.css";
-import client from "./client";
+
+async function execute(): Promise<number> {
+  const source$ = interval(2000).pipe(take(10));
+  const finalNumber = await lastValueFrom(source$);
+  return finalNumber;
+}
 
 function Gradient({
   conic,
@@ -50,20 +56,12 @@ const LINKS = [
   },
 ];
 
-interface Post {
-  _id: string;
-  title?: string;
-  slug?: {
-    current: string;
-  };
-}
-
 export default async function Page(): Promise<JSX.Element> {
-  const posts = await client.fetch<Post[]>(`*[_type == "post"]`);
+  const response = await execute();
   return (
     <main className={styles.main}>
       <div className={styles.description}>
-        <p>I found {posts.length} posts</p>
+        <p>The number is {response}</p>
         <p>
           examples/basic&nbsp;
           <code className={styles.code}>web</code>
