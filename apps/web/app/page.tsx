@@ -60,7 +60,7 @@ const LINKS = [
   },
 ];
 
-export default async function Page(): JSX.Element {
+export default async function Page(): Promise<JSX.Element> {
   // test lodash
   _.defaults({ a: 1 }, { a: 3, b: 2 });
   _.partition([1, 2, 3, 4], (n) => n % 2);
@@ -71,10 +71,12 @@ export default async function Page(): JSX.Element {
   formatRelative(subDays(new Date(), 3), new Date());
 
   // test rxjs
-  // const response = await execute();
-    // <main className={styles.main}>
-    //   <div className={styles.description}>
-    //     <p>The number is {response}</p>
+  const response = await execute();
+  return (
+    <main className={styles.main}>
+      <div className={styles.description}>
+        <p>The number is {response}</p>
+        <p>
           examples/basic&nbsp;
           <code className={styles.code}>web</code>
         </p>
