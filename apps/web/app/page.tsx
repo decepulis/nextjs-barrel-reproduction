@@ -1,6 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call -- just testing lodash */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access -- just testing lodash */
 import Image from "next/image";
 import { Card } from "ui";
 import { interval, take, lastValueFrom } from "rxjs";
+import _ from "lodash";
+import { format, formatDistance, formatRelative, subDays } from "date-fns";
 import styles from "./page.module.css";
 
 async function execute(): Promise<number> {
@@ -56,13 +60,21 @@ const LINKS = [
   },
 ];
 
-export default async function Page(): Promise<JSX.Element> {
-  const response = await execute();
-  return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>The number is {response}</p>
-        <p>
+export default async function Page(): JSX.Element {
+  // test lodash
+  _.defaults({ a: 1 }, { a: 3, b: 2 });
+  _.partition([1, 2, 3, 4], (n) => n % 2);
+
+  // test date-fns
+  format(new Date(), "'Today is a' eeee");
+  formatDistance(subDays(new Date(), 3), new Date(), { addSuffix: true });
+  formatRelative(subDays(new Date(), 3), new Date());
+
+  // test rxjs
+  // const response = await execute();
+    // <main className={styles.main}>
+    //   <div className={styles.description}>
+    //     <p>The number is {response}</p>
           examples/basic&nbsp;
           <code className={styles.code}>web</code>
         </p>
